@@ -1,0 +1,9 @@
+.chord-item-cpn {
+  position: relative;
+  .chord-item__result {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateX(100%) translateY(-50%);
+  }
+}

@@ -1,0 +1,69 @@
+blockquote,
+body,
+caption,
+dd,
+div,
+dl,
+dt,
+em,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+img,
+input,
+label,
+li,
+ol,
+p,
+pre,
+span,
+strong,
+table,
+tbody,
+td,
+textarea,
+tfoot,
+th,
+thead,
+tr,
+tt,
+ul {
+  margin: 0;
+  padding: 0;
+  font-family: 'PingFang SC';
+}
+svg {
+  font-family: 'PingFang SC';
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+img {
+  vertical-align: middle;
+}
+html {
+  width: 100%;
+  //height: 100%;
+}
+body {
+  width: 100%;
+  //height: 100%;
+  //overflow: hidden;
+}
+a {
+  text-decoration: none;
+}
+h1,
+h2,
+h3,
+h4 {
+  font-weight: normal;
+}

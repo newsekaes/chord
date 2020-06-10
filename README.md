@@ -1,5 +1,7 @@
 # Chord
 一个用于记忆琴键和弦的工具
+
+[DEMO地址](https://newsekaes.github.io/chord/)
 ## 1. 开发进度一览
 -[X] 完成keyboard交互
 -[ ] 完成和弦存取体系搭建

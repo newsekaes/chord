@@ -7,6 +7,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "homepage": "https://newsekaes.github.io/chord/",
   "dependencies": {
     "core-js": "^3.6.4",
     "konva": "^6.0.0",

@@ -3,12 +3,12 @@
 
 [DEMO地址](https://newsekaes.github.io/chord/)
 ## 1. 开发进度一览
--[X] 完成keyboard交互
--[ ] 完成和弦存取体系搭建
--[ ] 完成mobile和PC适配
--[ ] 增加MIDI支持
--[ ] 增加guitar交互
--[ ] 增加五线谱交互
+- 完成keyboard交互 [完成]
+- 完成和弦存取体系搭建
+- 完成mobile和PC适配
+- 增加MIDI支持
+- 增加guitar交互
+- 增加五线谱交互
 > 后续开发目标视情况而定
 ---
 ## 2. 阶段性开发日志

@@ -22,7 +22,6 @@
 <script>
 // @ is an alias to /src
 import Chord from '@/components/Chord'
-import { keyMaps } from '@/const'
 export default {
   name: 'Home',
   components: {
@@ -30,7 +29,7 @@ export default {
   },
   data () {
     return {
-      keyMaps,
+      keyMaps: [],
       newKey: {
         name: '',
         answer: []
@@ -45,6 +44,9 @@ export default {
         map: item.keys
       })))
     }
+  },
+  created () {
+    this.keyMaps = this.$answerStorage.getSavedAnswers()
   }
 }
 </script>

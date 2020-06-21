@@ -20,12 +20,15 @@ class AnswerStorage {
   }
 
   public addAnswer (answer: Answer, index: number = this.data.length) {
+    // eslint-disable-next-line
     if (this.checkAnswer(answer)) {
       this.data.splice(index, 0, answer)
       this.syncStorage()
       Notify({ type: 'success', message: '保存成功' })
+      return true
     } else {
       Notify({ type: 'warning', message: '和弦名称不能重复' })
+      return false
     }
   }
 
@@ -58,7 +61,7 @@ class AnswerStorage {
   }
 
   private checkAnswer (answer: Answer) {
-    return this.data.some(ans => ans.name === answer.name)
+    return !this.data.some(ans => ans.name === answer.name)
   }
 
   private validate (answers: Answers): boolean {

@@ -10,8 +10,12 @@
     </div>
     <div class="chord-create-box">
       <div class="chord-card">
-<!--        <van-field v-model="value" label="文本" placeholder="请输入用户名" />-->
-
+        <h3 class="chard-create-title">新建和弦</h3>
+        <van-field v-model="newKey.name" label="名称" placeholder="请输入和弦名不可重复" />
+        <div class="chord-box">
+          <Chord ref="chordAdd"></Chord>
+        </div>
+        <div class="chard-create-btn" @click="addChord">确定</div>
       </div>
     </div>
 <!--    <button @click="handleClick">保存</button>-->
@@ -43,6 +47,15 @@ export default {
         name: this.keyMaps[index].name,
         map: item.keys
       })))
+    },
+    addChord () {
+      const target = this.$refs.chordAdd
+      if (this.$answerStorage.addAnswer({
+        name: this.newKey.name,
+        map: [target.keys]
+      })) {
+        this.newKey.name = ''
+      }
     }
   },
   created () {
@@ -72,5 +85,24 @@ export default {
   .chord-box {
     display: flex;
     justify-content: center;
+  }
+  .chord-create-box {
+    margin-bottom: 30px;
+    .chard-create-title {
+      margin-top: 20px;
+    }
+    .chord-card {
+      height: 240px;
+    }
+    .chard-create-btn {
+      width: 80%;
+      margin: 10px auto 0;
+      height: 30px;
+      border-radius: 4px;
+      text-align: center;
+      line-height: 30px;
+      background: #42b983;
+      color: #FFFFFF;
+    }
   }
 </style>

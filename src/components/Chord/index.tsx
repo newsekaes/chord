@@ -15,12 +15,8 @@ const blackKeyRect = {
   name: 'Chord'
 })
 export default class Chord extends Vue {
-  @Prop({
-    default () {
-      return new Array(24).fill(0)
-    }
-  })
-  private answer!: number[]
+  @Prop()
+  private answer?: number[]
 
   private configKonva = {
     width: whiteKeyRect.width * 14 + 10,
@@ -34,7 +30,10 @@ export default class Chord extends Vue {
   private whiteKeyRect = whiteKeyRect
   private blackKeyRect = blackKeyRect
   private get resultRight () {
-    return this.keys.toString() === this.answer.toString()
+    if (this.answer) {
+      return this.keys.toString() === this.answer.toString()
+    }
+    return false
   }
 
   render () {

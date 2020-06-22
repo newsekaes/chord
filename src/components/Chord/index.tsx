@@ -60,7 +60,7 @@ export default class Chord extends tsx.Component<ChordProps> {
         </konva-layer>
       </konva-stage>
       <div class={style.chordItem__result}>
-        { this.resultRight ? <span><img width="24" height="24" src={require('@/assets/right.png')} alt="right"/></span> : '' }
+        <span><img style={{ visibility: this.resultRight ? 'visible' : 'hidden' }} width="24" height="24" src={require('@/assets/right.png')} alt="right"/></span>
       </div>
     </div>)
   }

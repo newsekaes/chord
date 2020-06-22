@@ -27,9 +27,12 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
   private isCreateBox!: boolean
 
   @Emit('add')
-  private addChord (): number[] {
+  private addChord (): {name: string; keys: number[] } {
     const chordNode = this.$refs.chord as Chord
-    return chordNode.getKeys()
+    return {
+      name: this.nameModel,
+      keys: chordNode.getKeys()
+    }
   }
 
   @Emit('del')
@@ -52,21 +55,27 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
     } else if (this.editStatus === 2) {
       this.delChord()
     }
+    this.editClear()
+  }
+
+  private editClear () {
     this.editStatus = 0
+    this.nameModel = ''
   }
 
   render () {
     if (this.isCreateBox) {
       // 新建和弦的UI
-      console.log(<div>1</div>)
       return (
         <div class={`${style.chordCard} ${style.chordCardCreate}`}>
           <h3 class={style.chordCreateTitle}>新建和弦</h3>
-          <van-field VModel="newKey.name" label="名称" placeholder="请输入和弦名不可重复" />
+          <van-field vModel={this.nameModel} label="名称" placeholder="请输入和弦名不可重复" />
           <div class={style.chordBox}>
             <Chord ref="chord"/>
           </div>
-          <div class={style.chordCreateBtn} onClick={this.addChord}>确定</div>
+          <div class={style.chordBtnGroup}>
+            <div class={[style.chordBtnConfirm, style.chordBtn]} onClick={this.addChord}>确定</div>
+          </div>
         </div>
       )
     }
@@ -74,8 +83,8 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
     return (
       <div class={style.chordCard}>
         { this.editStatus === 1
-          ? <van-field VModel="newKey.name" label="名称" placeholder="请输入和弦名不可重复" />
-          : <h3>{this.name}</h3>
+          ? <van-field vModel={this.nameModel} label="名称" placeholder="请输入和弦名不可重复" />
+          : <h3 class={style.chordName}>{this.name}</h3>
         }
         <div class={style.chordBox}>
           <Chord answer={ this.answer } ref="chord"/>
@@ -84,9 +93,15 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
           this.editStatus === 0
             ? <div class={style.chordBtnGroup}>
               <div class={`${style.chordBtn} ${style.chordBtnDel}`} onClick={() => { this.editStatus = 2 }}>删除</div>
-              <div class={`${style.chordBtn} ${style.chordBtnModify}`} onClick={() => { this.editStatus = 1 }}>修改</div></div>
+              <div class={`${style.chordBtn} ${style.chordBtnModify}`} onClick={() => { this.editStatus = 1; this.nameModel = this.name }}>修改</div></div>
             : <div class={style.chordBtnGroup}>
-              <div class={`${style.chordBtn} ${style.chordBtnConfirm}`} onClick={this.editDone}>确定</div></div>
+              <div class={`${style.chordBtn} ${style.chordBtnCancel}`} onClick={this.editClear}>取消</div>
+              {
+                this.editStatus === 1
+                  ? <div class={`${style.chordBtn} ${style.chordBtnConfirm}`} onClick={this.editDone}>确定</div>
+                  : <div class={`${style.chordBtn} ${style.chordBtnDel}`} onClick={this.editDone}>删除</div>
+              }
+            </div>
         }
       </div>
     )

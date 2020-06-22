@@ -8,11 +8,11 @@
         :name="item.name"
         @add="addChord"
         @del="delChord(index)"
-        @modify="modifyChord"
+        @modify="modifyChord(index, $event)"
         class="chord-card"/>
     </div>
     <div class="chord-create-box">
-      <ChordCard class="chord-card" :is-create-box="true" @add="addChord"/>
+      <ChordCard class="chord-card" :is-create-box="true" @add="addChord" :key="keyMaps.length + 1"/>
     </div>
   </div>
 </template>
@@ -27,28 +27,22 @@ export default {
   },
   data () {
     return {
-      keyMaps: [],
-      newKey: {
-        name: '',
-        answer: []
-      }
+      keyMaps: []
     }
   },
   methods: {
-    addChord (keys) {
-      if (this.$answerStorage.addAnswer({
-        name: this.newKey.name,
-        map: keys
-      })) {
-        this.newKey.name = ''
-      }
+    addChord ({ name, keys }) {
+      this.$answerStorage.addAnswer({
+        name: name,
+        map: [keys]
+      })
     },
     delChord (index) {
-      this.$answerStorage.delChord(index)
+      this.$answerStorage.delAnswer(index)
+    },
+    modifyChord (index, { name, keys }) {
+      this.$answerStorage.modifyAnswer(index, { name, keys })
     }
-    // modifyChord ({ name, key }) {
-    //   this.
-    // },
   },
   created () {
     this.keyMaps = this.$answerStorage.getSavedAnswers()

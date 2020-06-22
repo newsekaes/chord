@@ -1,9 +1,15 @@
 .chord-card {
   width: 350px;
-  height: 200px;
+  height: 220px;
   overflow: hidden;
   border-radius: 10px;
   border: 2px solid #a1a1a1;
+  .chord-name {
+    height: 24px;
+    line-height: 24px;
+    padding: 10px 0;
+    box-sizing: content-box;
+  }
   .chord-box {
     display: flex;
     justify-content: center;
@@ -29,6 +35,10 @@
         border: 1px solid #333;
         box-sizing: border-box;
       }
+      &.chord-btn-cancel {
+        border: 1px solid #333;
+        box-sizing: border-box;
+      }
       &.chord-btn-confirm {
         background: #42b983;
         color: #FFFFFF;
@@ -39,16 +49,16 @@
     margin-top: 20px;
   }
   &.chord-card__create {
-    height: 240px;
-    .chord-create-btn {
-      width: 80%;
-      margin: 10px auto 0;
-      height: 30px;
-      border-radius: 4px;
-      text-align: center;
-      line-height: 30px;
-      background: #42b983;
-      color: #FFFFFF;
-    }
+    height: 270px;
+    //.chord-create-btn {
+    //  width: 80%;
+    //  margin: 10px auto 0;
+    //  height: 30px;
+    //  border-radius: 4px;
+    //  text-align: center;
+    //  line-height: 30px;
+    //  background: #42b983;
+    //  color: #FFFFFF;
+    //}
   }
 }

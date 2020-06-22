@@ -28,12 +28,12 @@
     ]
   },
   "include": [
+    "node_modules/vue-tsx-support/enable-check.d.ts",
     "src/**/*.vue",
     "src/**/*.ts",
     "src/**/*.tsx",
     "tests/**/*.ts",
-    "tests/**/*.tsx",
-    "node_modules/vue-tsx-support/enable-check.d.ts"
+    "tests/**/*.tsx"
   ],
   "exclude": [
     "node_modules"

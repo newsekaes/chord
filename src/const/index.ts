@@ -2,7 +2,7 @@ import { Answers } from '@/plugin/AnswerStorage'
 export const keyMaps: Answers = [{
   name: 'C',
   map: [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   ]
 }, {
   name: 'Cm',

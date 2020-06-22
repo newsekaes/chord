@@ -1,4 +1,5 @@
 import { Vue, Prop, Component } from 'vue-property-decorator'
+import * as tsx from 'vue-tsx-support'
 import style from './index.module.scss'
 import Konva from 'konva'
 const whiteKeyRect = {
@@ -11,10 +12,13 @@ const blackKeyRect = {
   height: 47,
   fill: 'black'
 }
-@Component({
-  name: 'Chord'
-})
-export default class Chord extends Vue {
+
+interface ChordProps {
+  answer?: number[];
+}
+
+@Component
+export default class Chord extends tsx.Component<ChordProps> {
   @Prop()
   private answer?: number[]
 
@@ -36,7 +40,7 @@ export default class Chord extends Vue {
     return false
   }
 
-  render () {
+  private render () {
     return (<div class={style.chordItemCpn}>
       <konva-stage config={this.configKonva} ref="stage" style={this.whiteKeyRect.width * 14 + 20}>
         <konva-layer>
@@ -61,7 +65,7 @@ export default class Chord extends Vue {
     </div>)
   }
 
-  getKeyRect (index: number, i: number, hoverIndex: number | null) {
+  private getKeyRect (index: number, i: number, hoverIndex: number | null) {
     const key = index % 12
     const part = Math.floor(index / 12)
     const rect: Konva.ShapeConfig = {
@@ -83,7 +87,7 @@ export default class Chord extends Vue {
     return rect
   }
 
-  handleClick (index: number) {
+  private handleClick (index: number) {
     this.keys = this.keys.map((i, j) => {
       if (index === j) {
         return i === 0 ? 1 : 0
@@ -94,15 +98,19 @@ export default class Chord extends Vue {
     this.$emit('change', this.keys)
   }
 
-  handleMouseEnter (index: number) {
+  private handleMouseEnter (index: number) {
     this.hoverIndex = index
     const stage = (this.$refs.stage as unknown as Konva.Transformer).getStage()
     if (stage) stage.container().style.cursor = 'pointer'
   }
 
-  handleMouseLeave () {
+  private handleMouseLeave () {
     this.hoverIndex = null
     const stage = (this.$refs.stage as unknown as Konva.Transformer).getStage()
     if (stage) stage.container().style.cursor = 'pointer'
+  }
+
+  public getKeys (): number[] {
+    return this.keys
   }
 }

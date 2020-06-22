@@ -3,9 +3,6 @@ declare module '*.vue' {
   export default Vue
 }
 declare module '*.scss' {
-
-  const scss: any
-
-  export default scss
-
+  const content: {[className: string]: string}
+  export default content
 }

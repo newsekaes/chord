@@ -1,0 +1,35 @@
+.chord-card {
+  width: 350px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 2px solid #a1a1a1;
+  .chord-box {
+    display: flex;
+    justify-content: center;
+  }
+  .chord-btn-group {
+    display: flex;
+    justify-content: center;
+    .chord-btn {
+      flex-grow: 1;
+      flex-shrink: 0;
+    }
+  }
+  .chord-create-title {
+    margin-top: 20px;
+  }
+  &.chord-card__create {
+    height: 240px;
+    .chord-create-btn {
+      width: 80%;
+      margin: 10px auto 0;
+      height: 30px;
+      border-radius: 4px;
+      text-align: center;
+      line-height: 30px;
+      background: #42b983;
+      color: #FFFFFF;
+    }
+  }
+}

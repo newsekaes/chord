@@ -80,16 +80,14 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
         <div class={style.chordBox}>
           <Chord answer={ this.answer } ref="chord"/>
         </div>
-        <div class={style.chordBtnGroup}>
-          {
-            this.editStatus === 0
-              ? (<template>
-                <div class={style.chordBtn} onClick={() => { this.editStatus = 2 }}>删除</div>
-                <div class={style.chordBtn} onClick={() => { this.editStatus = 1 }}>修改</div>
-              </template>)
-              : <div class={style.chordCreateBtn} onClick={this.editDone}>确定</div>
-          }
-        </div>
+        {
+          this.editStatus === 0
+            ? <div class={style.chordBtnGroup}>
+              <div class={`${style.chordBtn} ${style.chordBtnDel}`} onClick={() => { this.editStatus = 2 }}>删除</div>
+              <div class={`${style.chordBtn} ${style.chordBtnModify}`} onClick={() => { this.editStatus = 1 }}>修改</div></div>
+            : <div class={style.chordBtnGroup}>
+              <div class={`${style.chordBtn} ${style.chordBtnConfirm}`} onClick={this.editDone}>确定</div></div>
+        }
       </div>
     )
   }

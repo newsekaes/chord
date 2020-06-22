@@ -11,9 +11,28 @@
   .chord-btn-group {
     display: flex;
     justify-content: center;
+    align-items: center;
     .chord-btn {
       flex-grow: 1;
       flex-shrink: 0;
+      margin: 10px 30px 0;
+      height: 30px;
+      border-radius: 4px;
+      text-align: center;
+      line-height: 30px;
+      cursor: pointer;
+      &.chord-btn-del {
+        background: #e04545;
+        color: #FFFFFF;
+      }
+      &.chord-btn-modify {
+        border: 1px solid #333;
+        box-sizing: border-box;
+      }
+      &.chord-btn-confirm {
+        background: #42b983;
+        color: #FFFFFF;
+      }
     }
   }
   .chord-create-title {

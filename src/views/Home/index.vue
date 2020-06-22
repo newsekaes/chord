@@ -1,7 +1,15 @@
 <template>
   <div class="home">
     <div class="chord-cardBox">
-      <ChordCard v-for="item in keyMaps" :key="item.name" :answer="item.map" :name="item.name" class="chord-card"></ChordCard>
+      <ChordCard
+        v-for="(item, index) in keyMaps"
+        :key="item.name"
+        :answer="item.map"
+        :name="item.name"
+        @add="addChord"
+        @del="delChord(index)"
+        @modify="modifyChord"
+        class="chord-card"/>
     </div>
     <div class="chord-create-box">
       <ChordCard class="chord-card" :is-create-box="true" @add="addChord"/>
@@ -34,7 +42,13 @@ export default {
       })) {
         this.newKey.name = ''
       }
+    },
+    delChord (index) {
+      this.$answerStorage.delChord(index)
     }
+    // modifyChord ({ name, key }) {
+    //   this.
+    // },
   },
   created () {
     this.keyMaps = this.$answerStorage.getSavedAnswers()

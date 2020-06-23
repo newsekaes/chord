@@ -29,7 +29,7 @@ export default class Chord extends tsx.Component<ChordProps> {
     offsetY: -2.5
   }
 
-  private keys = new Array(24).fill(0)
+  private keys: number[] = new Array(24).fill(0)
   private hoverIndex: null | number = null
   private whiteKeyRect = whiteKeyRect
   private blackKeyRect = blackKeyRect
@@ -112,5 +112,15 @@ export default class Chord extends tsx.Component<ChordProps> {
 
   public getKeys (): number[] {
     return this.keys
+  }
+
+  public showAnswer (): void {
+    if (this.answer) {
+      this.keys = this.answer
+    }
+  }
+
+  public clear () {
+    this.keys = new Array(24).fill(0)
   }
 }

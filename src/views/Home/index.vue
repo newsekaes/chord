@@ -1,18 +1,30 @@
 <template>
   <div class="home">
-    <div class="chord-cardBox">
-      <ChordCard
-        v-for="(item, index) in keyMaps"
-        :key="item.name"
-        :answer="item.map"
-        :name="item.name"
-        @add="addChord"
-        @del="delChord(index)"
-        @modify="modifyChord(index, $event)"
-        class="chord-card"/>
+    <div class="edit-switch-area">
+      <div class="edit-switch-item">
+        <van-icon class="switch-item-icon" name="edit"/><span>: </span><van-switch inactive-color="gray" class="switch-item-field" v-model="editing"/>
+      </div>
+      <div class="edit-switch-item">
+        <van-icon class="switch-item-icon" name="completed"/><span>: </span><van-switch inactive-color="gray" class="switch-item-field" v-model="showAnswer"/>
+      </div>
     </div>
-    <div class="chord-create-box">
-      <ChordCard class="chord-card" :is-create-box="true" @add="addChord" :key="keyMaps.length + 1"/>
+    <div class="chord-card-area">
+      <div class="chord-cardBox">
+        <ChordCard
+          :is-editing="editing"
+          :show-answer="showAnswer"
+          v-for="(item, index) in keyMaps"
+          :key="item.name"
+          :answer="item.map[0]"
+          :name="item.name"
+          @add="addChord"
+          @del="delChord(index)"
+          @modify="modifyChord(index, $event)"
+          class="chord-card"/>
+      </div>
+      <div class="chord-create-box" v-show="editing">
+        <ChordCard class="chord-card" :is-create-box="true" @add="addChord" :key="keyMaps.length + 1"/>
+      </div>
     </div>
   </div>
 </template>
@@ -27,7 +39,9 @@ export default {
   },
   data () {
     return {
-      keyMaps: []
+      keyMaps: [],
+      editing: false,
+      showAnswer: false
     }
   },
   methods: {
@@ -54,6 +68,33 @@ export default {
     width: 100%;
     /*padding: 10px;*/
     /*box-sizing: border-box;*/
+  }
+  .edit-switch-area {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    width: 100%;
+    padding: 0 20px;
+    border-bottom: 1px solid;
+    background: #FFF;
+    .edit-switch-item {
+      padding: 20px 0 20px 20px;
+      text-align: left;
+      .switch-item-icon {
+        font-size: 30px;
+        vertical-align: middle;
+      }
+      .switch-item-field {
+        margin-left: 20px;
+        vertical-align: middle;
+      }
+    }
+  }
+  .chord-card-area {
+    margin-top: 100px;
   }
   .chord-cardBox {
     display: flex;

@@ -1,11 +1,14 @@
-import { Prop, Component, Emit } from 'vue-property-decorator'
+import { Prop, Component, Emit, Watch } from 'vue-property-decorator'
 import * as tsx from 'vue-tsx-support'
 import style from './chordCard.module.scss'
 import Chord from '@/components/Chord'
+import { Field } from 'vant'
 interface ChordCardProps {
   name: string;
   answer: number[];
   isCreateBox: boolean;
+  isEditing: boolean;
+  showAnswer: boolean;
 }
 interface ChordCardEvent {
   onAdd: number[];
@@ -26,9 +29,19 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
   @Prop()
   private isCreateBox!: boolean
 
+  @Prop({
+    default () {
+      return false
+    }
+  })
+  private isEditing!: boolean
+
+  @Prop()
+  private showAnswer!: boolean
+
   @Emit('add')
   private addChord (): {name: string; keys: number[] } {
-    const chordNode = this.$refs.chord as Chord
+    const chordNode = this.$refs.chordCreate as Chord
     return {
       name: this.nameModel,
       keys: chordNode.getKeys()
@@ -49,6 +62,47 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
     }
   }
 
+  // @Watch('isEditing', {
+  //   immediate: false
+  // })
+  // private isEditingWatcher (newVal: boolean, oldVal: boolean) {
+  //   if (newVal !== oldVal) {
+  //     if (!this.isCreateBox) {
+  //       if (newVal) {
+  //         (this.$refs.chord as Chord).showAnswer()
+  //       } else {
+  //         (this.$refs.chord as Chord).clear()
+  //       }
+  //     }
+  //   }
+  // }
+
+  @Watch('showAnswer', {
+    immediate: false
+  })
+  private showAnswerWatcher (newVal: boolean, oldVal: boolean) {
+    if (newVal !== oldVal) {
+      if (this.answer) {
+        if (newVal) {
+          (this.$refs.chord as Chord).showAnswer()
+        } else {
+          (this.$refs.chord as Chord).clear()
+        }
+      }
+    }
+  }
+
+  private async initEdit () {
+    this.editStatus = 1
+    this.nameModel = this.name
+    await this.$nextTick();
+    (this.$refs.nameField as Field).focus()
+  }
+
+  private initDel () {
+    this.editStatus = 2
+  }
+
   private editDone () {
     if (this.editStatus === 1) {
       this.modifyChord()
@@ -67,41 +121,55 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
     if (this.isCreateBox) {
       // 新建和弦的UI
       return (
-        <div class={`${style.chordCard} ${style.chordCardCreate}`}>
+        <div class={[style.chordCard, style.chordCardCreate]}>
           <h3 class={style.chordCreateTitle}>新建和弦</h3>
-          <van-field vModel={this.nameModel} label="名称" placeholder="请输入和弦名不可重复" />
+          <van-field class={style.chordNameField} vModel={this.nameModel} label="" placeholder="请输入和弦名(不可重复)" input-align="center" clearable />
           <div class={style.chordBox}>
-            <Chord ref="chord"/>
+            <Chord ref="chordCreate"/>
           </div>
           <div class={style.chordBtnGroup}>
-            <div class={[style.chordBtnConfirm, style.chordBtn]} onClick={this.addChord}>确定</div>
+            <div class={[style.chordBtnConfirm, style.chordBtn]} onClick={this.addChord}>
+              <van-icon class={style.chordBtnIcon} name="success"/>
+            </div>
           </div>
         </div>
       )
     }
     // 普通和弦的UI
     return (
-      <div class={style.chordCard}>
+      <div class={[style.chordCard, this.isEditing && style.chordCardEditing]}>
         { this.editStatus === 1
-          ? <van-field vModel={this.nameModel} label="名称" placeholder="请输入和弦名不可重复" />
+          ? <van-field class={style.chordNameField} vModel={this.nameModel} label="" placeholder="请输入和弦名(不可重复)" ref="nameField" input-align="center" clearable />
           : <h3 class={style.chordName}>{this.name}</h3>
         }
         <div class={style.chordBox}>
           <Chord answer={ this.answer } ref="chord"/>
         </div>
         {
-          this.editStatus === 0
+          this.isEditing &&
+          (this.editStatus === 0
             ? <div class={style.chordBtnGroup}>
-              <div class={`${style.chordBtn} ${style.chordBtnDel}`} onClick={() => { this.editStatus = 2 }}>删除</div>
-              <div class={`${style.chordBtn} ${style.chordBtnModify}`} onClick={() => { this.editStatus = 1; this.nameModel = this.name }}>修改</div></div>
+              <div class={`${style.chordBtn} ${style.chordBtnDel}`} onClick={this.initDel}>
+                <van-icon class={style.chordBtnIcon} name="delete"/>
+              </div>
+              <div class={`${style.chordBtn} ${style.chordBtnModify}`} onClick={this.initEdit}>
+                <van-icon class={style.chordBtnIcon} name="edit"/>
+              </div>
+            </div>
             : <div class={style.chordBtnGroup}>
-              <div class={`${style.chordBtn} ${style.chordBtnCancel}`} onClick={this.editClear}>取消</div>
+              <div class={`${style.chordBtn} ${style.chordBtnCancel}`} onClick={this.editClear}>
+                <van-icon class={style.chordBtnIcon} name="cross"/>
+              </div>
               {
                 this.editStatus === 1
-                  ? <div class={`${style.chordBtn} ${style.chordBtnConfirm}`} onClick={this.editDone}>确定</div>
-                  : <div class={`${style.chordBtn} ${style.chordBtnDel}`} onClick={this.editDone}>删除</div>
+                  ? <div class={`${style.chordBtn} ${style.chordBtnConfirm}`} onClick={this.editDone}>
+                    <van-icon class={style.chordBtnIcon} name="success" />
+                  </div>
+                  : <div class={`${style.chordBtn} ${style.chordBtnDel}`} onClick={this.editDone}>
+                    <van-icon class={style.chordBtnIcon} name="delete" />
+                  </div>
               }
-            </div>
+            </div>)
         }
       </div>
     )

@@ -1,14 +1,22 @@
 .chord-card {
   width: 350px;
-  height: 220px;
+  height: 180px;
   overflow: hidden;
   border-radius: 10px;
   border: 2px solid #a1a1a1;
+  transition: height 300ms;
+  &.chord-card__editing {
+    height: 220px;
+  }
   .chord-name {
     height: 24px;
     line-height: 24px;
     padding: 10px 0;
     box-sizing: content-box;
+  }
+  .chord-name-field {
+    text-align: center;
+    font-size: 1.17em;
   }
   .chord-box {
     display: flex;
@@ -27,6 +35,11 @@
       text-align: center;
       line-height: 30px;
       cursor: pointer;
+      .chord-btn-icon {
+        font-size: 20px;
+        text-align: center;
+        vertical-align: middle;
+      }
       &.chord-btn-del {
         background: #e04545;
         color: #FFFFFF;

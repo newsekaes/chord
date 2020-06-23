@@ -1,3 +1,5 @@
 import Vue from 'vue'
-import { Field } from 'vant'
+import { Field, Icon, Switch } from 'vant'
 Vue.use(Field)
+Vue.use(Icon)
+Vue.use(Switch)

@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+.wrapperContent {
+  height: 65vh;
+}
+.block {
+  width: 90%;
+  //height: 70%;
+  background-color: #fff;
+}
+.btn-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .btn {
+    flex-grow: 1;
+    flex-shrink: 0;
+    margin: 10px 30px;
+    height: 30px;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    background: #42b983;
+    color: #FFFFFF;
+  }
+}

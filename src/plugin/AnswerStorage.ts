@@ -15,7 +15,7 @@ const errMap: { [key in Errno]?: string } = {
   10002: '和弦名称不能有重复',
   20001: '和弦琴键不能为空'
 }
-class AnswerStorage {
+export class AnswerStorage {
   private data: Answers = []
   private storage: Storage
   constructor (options: AnswerStoragePLOptions = { default: [] }) {
@@ -115,5 +115,4 @@ const AnswerStoragePlugin: Vue.PluginObject<AnswerStoragePLOptions> = {
     vue.prototype.$answerStorage = new AnswerStorage(options)
   }
 }
-
 export default AnswerStoragePlugin

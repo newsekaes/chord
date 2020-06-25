@@ -20,28 +20,35 @@
           @add="addChord"
           @del="delChord(index)"
           @modify="modifyChord(index, $event)"
-          class="chord-card"/>
+          class="chord-card"
+          ref="chord"
+        />
       </div>
       <div class="chord-create-box" v-show="editing">
         <ChordCard class="chord-card" :is-create-box="true" @add="addChord" :key="keyMaps.length + 1"/>
       </div>
     </div>
+    <ChordJson :show.sync="showTab"></ChordJson>
+    <div class="chord-tab-show" @click="showTab = !showTab">导入/导出</div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import ChordCard from '@/views/Home/chordCard'
+import ChordJson from '@/components/ChordJson'
 export default {
   name: 'Home',
   components: {
-    ChordCard
+    ChordCard,
+    ChordJson
   },
   data () {
     return {
       keyMaps: [],
       editing: false,
-      showAnswer: false
+      showAnswer: false,
+      showTab: false
     }
   },
   methods: {
@@ -56,7 +63,7 @@ export default {
     },
     modifyChord (index, { name, keys }) {
       this.$answerStorage.modifyAnswer(index, { name, keys })
-    }
+    },
   },
   created () {
     this.keyMaps = this.$answerStorage.getSavedAnswers()
@@ -114,5 +121,19 @@ export default {
     justify-content: center;
     align-items: center;
     .chord-card {}
+  }
+  .chord-tab-show {
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 50px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 70px;
+    height: 50px;
+    border-radius: 25px;
+    border: 1px solid #DDD;
+    background-color: #42b983;
+    color: #ffffff;
   }
 </style>

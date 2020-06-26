@@ -1,7 +1,7 @@
 import { Prop, Component, Watch } from 'vue-property-decorator'
 import * as tsx from 'vue-tsx-support'
 import style from './index.module.scss'
-import Konva from 'konva'
+import { Notify } from 'vant'
 import { AnswerStorage, Answers } from '@/plugin/AnswerStorage'
 
 interface ChordJsonProps {
@@ -33,17 +33,19 @@ export default class ChordJson extends tsx.Component<ChordJsonProps> {
   }
 
   private copy (): void {
-      let transfer = document.createElement('input');
-      document.body.appendChild(transfer);
-      transfer.value = this.copyValue;  // 这里表示想要复制的内容
-      transfer.focus();
-      transfer.select();
-      if (document.execCommand('copy')) {
-        document.execCommand('copy');
-      }
-      transfer.blur();
-      console.log('复制成功');
-      document.body.removeChild(transfer);
+    const transfer = document.createElement('input')
+    transfer.style.position = 'fixed'
+    transfer.style.visibility = 'hidden'
+    document.body.appendChild(transfer)
+    transfer.value = this.copyValue // 这里表示想要复制的内容
+    transfer.focus()
+    transfer.select()
+    if (document.execCommand('copy')) {
+      document.execCommand('copy')
+    }
+    transfer.blur()
+    document.body.removeChild(transfer)
+    Notify({ type: 'success', message: '复制成功, 请妥善保存' })
   }
 
   @Watch('show')
@@ -56,8 +58,8 @@ export default class ChordJson extends tsx.Component<ChordJsonProps> {
   render () {
     return (
       <van-overlay show={this.show} onClick={this.hideOverlay}>
-        <div class={style.wrapper} onClick={this.stopPropagation}>
-          <van-tabs class={style.block} vModel={this.tabActive}>
+        <div class={style.wrapper}>
+          <van-tabs class={style.block} vModel={this.tabActive} nativeOnClick={this.stopPropagation}>
             <van-tab title="导入">
               <div class={style.wrapperContent}>
                 <van-field

@@ -5,10 +5,11 @@
   height: 100%;
 }
 .wrapperContent {
-  height: 65vh;
+  height: 50vh;
+  overflow-y: auto;
 }
 .block {
-  width: 90%;
+  width: 80%;
   //height: 70%;
   background-color: #fff;
 }

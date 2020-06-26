@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <div class="edit-switch-area">
+      <img class="logo" :src="`${BASE_URL}favicon.ico`" alt="">
       <div class="edit-switch-item">
         <van-icon class="switch-item-icon" name="edit"/><span>: </span><van-switch inactive-color="gray" class="switch-item-field" v-model="editing"/>
       </div>
@@ -29,7 +30,7 @@
       </div>
     </div>
     <ChordJson :show.sync="showTab"></ChordJson>
-    <div class="chord-tab-show" @click="showTab = !showTab">导入/导出</div>
+    <div class="chord-tab-show" @click="showTab = !showTab"><van-icon name="replay" /></div>
   </div>
 </template>
 
@@ -37,6 +38,7 @@
 // @ is an alias to /src
 import ChordCard from '@/views/Home/chordCard'
 import ChordJson from '@/components/ChordJson'
+const BASE_URL = process.env.BASE_URL
 export default {
   name: 'Home',
   components: {
@@ -48,7 +50,8 @@ export default {
       keyMaps: [],
       editing: false,
       showAnswer: false,
-      showTab: false
+      showTab: false,
+      BASE_URL
     }
   },
   methods: {
@@ -63,7 +66,7 @@ export default {
     },
     modifyChord (index, { name, keys }) {
       this.$answerStorage.modifyAnswer(index, { name, keys })
-    },
+    }
   },
   created () {
     this.keyMaps = this.$answerStorage.getSavedAnswers()
@@ -76,13 +79,18 @@ export default {
     /*padding: 10px;*/
     /*box-sizing: border-box;*/
   }
+  .logo {
+    height: 50px;
+    width: 50px;
+    padding: 5px;
+  }
   .edit-switch-area {
     position: fixed;
     top: 0;
-    z-index: 999;
+    z-index: 1;
     display: flex;
     justify-content: space-around;
-    align-content: center;
+    align-items: center;
     width: 100%;
     padding: 0 20px;
     border-bottom: 1px solid;
@@ -124,15 +132,15 @@ export default {
   }
   .chord-tab-show {
     cursor: pointer;
-    font-size: 12px;
+    font-size: 20px;
+    font-weight: bold;
     line-height: 50px;
     position: fixed;
     bottom: 20px;
-    right: 20px;
-    width: 70px;
+    right: 10px;
+    width: 50px;
     height: 50px;
     border-radius: 25px;
-    border: 1px solid #DDD;
     background-color: #42b983;
     color: #ffffff;
   }

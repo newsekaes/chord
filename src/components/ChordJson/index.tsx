@@ -1,4 +1,4 @@
-import { Prop, Component, Watch } from 'vue-property-decorator'
+import { Prop, Component, Watch, Emit } from 'vue-property-decorator'
 import * as tsx from 'vue-tsx-support'
 import style from './index.module.scss'
 import { Notify } from 'vant'
@@ -23,6 +23,7 @@ export default class ChordJson extends tsx.Component<ChordJsonProps> {
     event.stopPropagation()
   }
 
+  @Emit('import')
   private importJson () {
     const answers: Answers = JSON.parse(this.text);
     (this.$answerStorage as AnswerStorage).loadAnswers(answers)

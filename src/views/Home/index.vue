@@ -29,7 +29,7 @@
         <ChordCard class="chord-card" :is-create-box="true" @add="addChord" :key="keyMaps.length + 1"/>
       </div>
     </div>
-    <ChordJson :show.sync="showTab"></ChordJson>
+    <ChordJson :show.sync="showTab" @import="refreshKeyMaps"></ChordJson>
     <div class="chord-tab-show" @click="showTab = !showTab"><van-icon name="replay" /></div>
   </div>
 </template>
@@ -66,10 +66,13 @@ export default {
     },
     modifyChord (index, { name, keys }) {
       this.$answerStorage.modifyAnswer(index, { name, keys })
+    },
+    refreshKeyMaps () {
+      this.keyMaps = this.$answerStorage.getSavedAnswers()
     }
   },
   created () {
-    this.keyMaps = this.$answerStorage.getSavedAnswers()
+    this.refreshKeyMaps()
   }
 }
 </script>

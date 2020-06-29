@@ -35,7 +35,7 @@ export default class ChordJson extends tsx.Component<ChordJsonProps> {
     this.importAnswers(answers)
   }
 
-  @AnswerStorageModule.Action('importAnswer') importAnswers!: (answers: Answers) => boolean
+  @AnswerStorageModule.Action('importAnswers') importAnswers!: (answers: Answers) => boolean
 
   public hideOverlay () {
     this.$emit('update:show', false)

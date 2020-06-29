@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
-import { answerStorageModule } from './answerStorage'
+import Vuex, { Store } from 'vuex'
+import { answerStorageModule, AnswerStorageState } from './answerStorage'
 Vue.use(Vuex)
 export interface StoreRootState {
   isMobile: boolean;
@@ -14,6 +14,6 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    answerStorageModule
+    answerStorage: answerStorageModule
   }
-})
+}) as Store<StoreRootState>

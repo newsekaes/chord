@@ -14,7 +14,7 @@
         <ChordCard
           :is-editing="editing"
           :show-answer="showAnswer"
-          v-for="(item, index) in keyMaps"
+          v-for="(item, index) in answers"
           :key="item.name"
           :answer="item.map[0]"
           :name="item.name"
@@ -26,18 +26,20 @@
         />
       </div>
       <div class="chord-create-box" v-show="editing">
-        <ChordCard class="chord-card" :is-create-box="true" @add="addChord" :key="keyMaps.length + 1"/>
+        <ChordCard class="chord-card" :is-create-box="true" @add="addChord" :key="answers.length + 1"/>
       </div>
     </div>
-    <ChordJson :show.sync="showTab" @import="refreshKeyMaps"></ChordJson>
+    <ChordJson :show.sync="showTab"></ChordJson>
     <div class="chord-tab-show" @click="showTab = !showTab"><van-icon name="replay" /></div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import { mapState, mapActions } from 'vuex'
 import ChordCard from '@/views/Home/chordCard'
 import ChordJson from '@/components/ChordJson'
+// import { Answers } from '@/store/answerStorage'
 const BASE_URL = process.env.BASE_URL
 export default {
   name: 'Home',
@@ -47,32 +49,33 @@ export default {
   },
   data () {
     return {
-      keyMaps: [],
       editing: false,
       showAnswer: false,
       showTab: false,
       BASE_URL
     }
   },
+  computed: {
+    ...mapState('answerStorage', ['answers'])
+  },
   methods: {
+    ...mapActions('answerStorage', [
+      'addAnswer',
+      'delAnswer',
+      'modifyAnswer'
+    ]),
     addChord ({ name, keys }) {
-      this.$answerStorage.addAnswer({
+      this.addAnswer([{
         name: name,
         map: [keys]
-      })
+      }])
     },
     delChord (index) {
-      this.$answerStorage.delAnswer(index)
+      this.delAnswer(index)
     },
     modifyChord (index, { name, keys }) {
-      this.$answerStorage.modifyAnswer(index, { name, keys })
-    },
-    refreshKeyMaps () {
-      this.keyMaps = this.$answerStorage.getSavedAnswers()
+      this.modifyAnswer([index, { name, keys }])
     }
-  },
-  created () {
-    this.refreshKeyMaps()
   }
 }
 </script>

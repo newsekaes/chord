@@ -1,23 +1,29 @@
-import { Prop, Component, Watch, Emit } from 'vue-property-decorator'
+import { Prop, Component, Emit } from 'vue-property-decorator'
 import * as tsx from 'vue-tsx-support'
 import style from './index.module.scss'
 import { Notify } from 'vant'
-import { AnswerStorage, Answers } from '@/plugin/AnswerStorage'
+import { Answers } from '@/store/answerStorage'
+import { namespace } from 'vuex-class'
 
 interface ChordJsonProps {
   show: boolean;
 }
 
+const AnswerStorageModule = namespace('answerStorage')
+
 @Component
 export default class ChordJson extends tsx.Component<ChordJsonProps> {
-  $answerStorage!: AnswerStorage
-
   @Prop()
   private show!: boolean
 
   private text = ''
   private tabActive = 0
-  private copyValue: string = JSON.stringify(this.$answerStorage.getSavedAnswers())
+  @AnswerStorageModule.State('answers') answers!: Answers
+
+  get copyValue () {
+    const answers = this.answers
+    return JSON.stringify(answers)
+  }
 
   private stopPropagation (event: Event) {
     event.stopPropagation()
@@ -25,9 +31,11 @@ export default class ChordJson extends tsx.Component<ChordJsonProps> {
 
   @Emit('import')
   private importJson () {
-    const answers: Answers = JSON.parse(this.text);
-    (this.$answerStorage as AnswerStorage).loadAnswers(answers)
+    const answers: Answers = JSON.parse(this.text)
+    this.importAnswers(answers)
   }
+
+  @AnswerStorageModule.Action('importAnswer') importAnswers!: (answers: Answers) => boolean
 
   public hideOverlay () {
     this.$emit('update:show', false)
@@ -47,13 +55,6 @@ export default class ChordJson extends tsx.Component<ChordJsonProps> {
     transfer.blur()
     document.body.removeChild(transfer)
     Notify({ type: 'success', message: '复制成功, 请妥善保存' })
-  }
-
-  @Watch('show')
-  showWatcher (newVal: boolean, oldVal: boolean) {
-    if (oldVal !== newVal && newVal) {
-      this.copyValue = JSON.stringify(this.$answerStorage.getSavedAnswers())
-    }
   }
 
   render () {

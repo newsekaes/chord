@@ -3,13 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import VueKonva from 'vue-konva'
-import AnswerStoragePlugin from '@/plugin/AnswerStorage'
-import { keyMaps } from '@/const'
 
 import '@/style/index.scss'
 import '@/components'
 
-Vue.use(AnswerStoragePlugin, { default: keyMaps })
 Vue.use(VueKonva, { prefix: 'Konva' })
 
 Vue.config.productionTip = false

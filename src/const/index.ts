@@ -1,4 +1,4 @@
-import { Answers } from '@/plugin/AnswerStorage'
+import { Answers } from '@/store/answerStorage'
 
 export const keyMaps: Answers = [{
   name: 'C',

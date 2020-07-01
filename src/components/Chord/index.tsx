@@ -1,4 +1,4 @@
-import { Vue, Prop, Component } from 'vue-property-decorator'
+import { Prop, Component } from 'vue-property-decorator'
 import * as tsx from 'vue-tsx-support'
 import style from './index.module.scss'
 import Konva from 'konva'

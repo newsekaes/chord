@@ -4,11 +4,11 @@ import style from './chordCard.module.scss'
 import Chord from '@/components/Chord'
 import { Field } from 'vant'
 interface ChordCardProps {
-  name: string;
-  answer: number[];
-  isCreateBox: boolean;
-  isEditing: boolean;
-  showAnswer: boolean;
+  name?: string;
+  answer?: number[];
+  isCreateBox?: boolean;
+  isEditing?: boolean;
+  showAnswer?: boolean;
 }
 interface ChordCardEvent {
   onAdd: number[];
@@ -20,24 +20,25 @@ interface ChordCardEvent {
 export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEvent> {
   private editStatus: 0 | 1 | 2 = 0 // 0: 不编辑；1：再编辑；2：删除
   private nameModel = ''
-  @Prop()
-  private name!: string
 
   @Prop()
-  private answer!: number[]
+  private name: string = ''
 
   @Prop()
-  private isCreateBox!: boolean
+  private answer: number[] = []
+
+  @Prop()
+  private isCreateBox = false
 
   @Prop({
     default () {
       return false
     }
   })
-  private isEditing!: boolean
+  private isEditing = false
 
   @Prop()
-  private showAnswer!: boolean
+  private showAnswer = false
 
   @Emit('add')
   private addChord (): {name: string; keys: number[] } {

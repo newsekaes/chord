@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
-import { answerStorageModule, AnswerStorageState } from './answerStorage'
+import { answerStorageModule } from './answerStorage'
+export * from './answerStorage'
 Vue.use(Vuex)
 export interface StoreRootState {
   isMobile: boolean;

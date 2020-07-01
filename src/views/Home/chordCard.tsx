@@ -22,7 +22,7 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
   private nameModel = ''
 
   @Prop()
-  private name: string = ''
+  private name = ''
 
   @Prop()
   private answer: number[] = []

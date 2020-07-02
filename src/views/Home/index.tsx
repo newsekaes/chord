@@ -3,8 +3,10 @@ import { namespace } from 'vuex-class'
 import * as tsx from 'vue-tsx-support'
 import { Answer, Answers } from '@/store'
 
-import ChordCard from '@/views/Home/chordCard'
 import ChordJson from '@/components/ChordJson'
+import Index from './ChordCard'
+import Tool from './Tool'
+
 import style from './index.module.scss'
 const answerStorage = namespace('answerStorage')
 const BASE_URL = process.env.BASE_URL
@@ -13,6 +15,7 @@ const BASE_URL = process.env.BASE_URL
 export default class Home extends tsx.Component<{}> {
   private editing = false
   private showAnswer = false
+  private showPopup = false
   private showTab = false
   private BASE_URL: string = BASE_URL
 
@@ -39,20 +42,11 @@ export default class Home extends tsx.Component<{}> {
   render () {
     return (
       <div class={style.home}>
-        <div class={style.editSwitchArea}>
-          <img class={style.logo} src={`${this.BASE_URL}favicon.ico`} alt=""/>
-          <div class={style.editSwitchItem}>
-            <van-icon class={style.switchItemIcon} name="edit"/><span>: </span><van-switch inactive-color="gray" class={style.switchItemField} vModel={this.editing}/>
-          </div>
-          <div class={style.editSwitchItem}>
-            <van-icon class={style.switchItemIcon} name="completed"/><span>: </span><van-switch inactive-color="gray" class={style.switchItemField} vModel={this.showAnswer}/>
-          </div>
-        </div>
         <div class={style.chordCardArea}>
           <div class={style.chordCardBox}>
             {
               this.answers.map((answer, index) => (
-                <ChordCard
+                <Index
                   isEditing={this.editing}
                   showAnswer={this.showAnswer}
                   key={answer.name}
@@ -68,11 +62,22 @@ export default class Home extends tsx.Component<{}> {
             }
           </div>
           <div class={style.chordCreateBox} vShow={this.editing}>
-            <ChordCard class={style.chordCard} is-create-box={true} onAdd={this.addChord} key={this.answers.length + 1}/>
+            <Index class={style.chordCard} is-create-box={true} onAdd={this.addChord} key={this.answers.length + 1}/>
           </div>
         </div>
         <ChordJson show={this.showTab} {...{ on: { 'update:show': (val: boolean) => { this.showTab = val } } }}/>
-        <div class={style.chordTabShow} onClick={() => { this.showTab = !this.showTab }}><van-icon name="replay" /></div>
+        <Tool
+          show={this.showPopup}
+          editing={this.editing}
+          showAnswer={this.showAnswer}
+          on={{
+            replayClick: () => { this.showPopup = false; this.showTab = true },
+            'update:show': (val: boolean) => { this.showPopup = val },
+            'update:editing': (val: boolean) => { this.editing = val },
+            'update:showAnswer': (val: boolean) => { this.showAnswer = val }
+          }}
+        />
+        <div class={style.chordTabShow} onClick={() => { this.showPopup = !this.showPopup }}><van-icon name="ellipsis" class={style.chordTabShowIcon}/></div>
       </div>
     )
   }

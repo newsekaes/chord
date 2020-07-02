@@ -3,37 +3,8 @@
   /*padding: 10px;*/
   /*box-sizing: border-box;*/
 }
-.logo {
-  height: 50px;
-  width: 50px;
-  padding: 5px;
-}
-.edit-switch-area {
-  position: fixed;
-  top: 0;
-  z-index: 1;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  padding: 0 20px;
-  border-bottom: 1px solid;
-  background: #FFF;
-  .edit-switch-item {
-    padding: 20px 0 20px 20px;
-    text-align: left;
-    .switch-item-icon {
-      font-size: 30px;
-      vertical-align: middle;
-    }
-    .switch-item-field {
-      margin-left: 20px;
-      vertical-align: middle;
-    }
-  }
-}
 .chord-card-area {
-  margin-top: 100px;
+  //margin-top: 100px;
 }
 .chord-cardBox {
   display: flex;
@@ -67,4 +38,7 @@
   border-radius: 25px;
   background-color: #42b983;
   color: #ffffff;
+  .chord-tab-show-icon {
+    line-height: 50px;
+  }
 }

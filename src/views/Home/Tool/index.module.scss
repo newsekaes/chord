@@ -1,0 +1,31 @@
+.logo {
+  height: 50px;
+  width: 50px;
+  padding: 5px;
+}
+.edit-switch-area {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px;
+  border-bottom: 1px solid;
+  background: #FFF;
+  .edit-switch-item {
+    padding: 20px 0 20px 0px;
+    text-align: left;
+    &:first-child {
+      //background-color: #1989fa;
+      //width: 40px;
+    }
+    .switch-item-icon {
+      font-size: 30px;
+      vertical-align: middle;
+    }
+    .switch-item-field {
+      margin-left: 20px;
+      vertical-align: middle;
+    }
+  }
+}
+

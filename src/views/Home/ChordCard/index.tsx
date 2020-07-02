@@ -1,6 +1,6 @@
 import { Prop, Component, Emit, Watch } from 'vue-property-decorator'
 import * as tsx from 'vue-tsx-support'
-import style from './chordCard.module.scss'
+import style from './index.module.scss'
 import Chord from '@/components/Chord'
 import { Field } from 'vant'
 interface ChordCardProps {
@@ -17,28 +17,34 @@ interface ChordCardEvent {
 }
 
 @Component
-export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEvent> {
+export default class Index extends tsx.Component<ChordCardProps, ChordCardEvent> {
   private editStatus: 0 | 1 | 2 = 0 // 0: 不编辑；1：再编辑；2：删除
   private nameModel = ''
 
-  @Prop()
-  private name = ''
-
-  @Prop()
-  private answer: number[] = []
-
-  @Prop()
-  private isCreateBox = false
+  @Prop({
+    default: ''
+  })
+  private name!: string
 
   @Prop({
-    default () {
-      return false
-    }
+    default: () => []
   })
-  private isEditing = false
+  private answer!: number[]
 
-  @Prop()
-  private showAnswer = false
+  @Prop({
+    default: false
+  })
+  private isCreateBox!: boolean
+
+  @Prop({
+    default: false
+  })
+  private isEditing!: boolean
+
+  @Prop({
+    default: false
+  })
+  private showAnswer!: boolean
 
   @Emit('add')
   private addChord (): {name: string; keys: number[] } {

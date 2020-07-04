@@ -21,6 +21,10 @@
     .switch-item-icon {
       font-size: 30px;
       vertical-align: middle;
+      &.icon-active {
+        color: #6192ee;
+        text-shadow: 0 0 2px;
+      }
     }
     .switch-item-field {
       margin-left: 20px;

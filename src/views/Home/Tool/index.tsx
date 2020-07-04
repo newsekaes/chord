@@ -59,19 +59,27 @@ export default class Tool extends tsx.Component<ToolProps, ToolEvents> {
     return (
       <van-popup vModel={this.__show} position="bottom">
         <div class={style.editSwitchArea}>
-          <div class={style.editSwitchItem}>
-            <van-icon class={style.switchItemIcon} name="replay" nativeOnClick={ this.replayClick }/>
-          </div>
           {/* <img class={style.logo} src={`${this.BASE_URL}favicon.ico`} alt=""/> */}
           <div class={style.editSwitchItem}>
-            <van-icon class={style.switchItemIcon} name="edit"/>
-            <span>: </span>
-            <van-switch inactive-color="gray" class={style.switchItemField} vModel={this.__editing}/>
+            <van-icon
+              class={{ [style.switchItemIcon]: true, [style.iconActive]: this.__showAnswer }}
+              nativeOnClick={() => {
+                this.__showAnswer = !this.__showAnswer
+              }}
+              name={this.__showAnswer ? 'eye-o' : 'closed-eye'}/>
+            {/* <span>: </span> */}
+            {/* <van-switch inactive-color="gray" class={style.switchItemField} vModel={this.__showAnswer}/> */}
           </div>
           <div class={style.editSwitchItem}>
-            <van-icon class={style.switchItemIcon} name="completed"/>
-            <span>: </span>
-            <van-switch inactive-color="gray" class={style.switchItemField} vModel={this.__showAnswer}/>
+            <van-icon
+              class={{ [style.switchItemIcon]: true, [style.iconActive]: this.__editing }}
+              nativeOnClick={ () => { this.__editing = !this.__editing } }
+              name="edit"/>
+            {/* <span>: </span> */}
+            {/* <van-switch inactive-color="gray" class={style.switchItemField} vModel={this.__editing}/> */}
+          </div>
+          <div class={style.editSwitchItem}>
+            <van-icon class={style.switchItemIcon} name="replay" nativeOnClick={this.replayClick}/>
           </div>
         </div>
       </van-popup>

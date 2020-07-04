@@ -6,6 +6,7 @@ interface ToolProps {
   editing?: boolean;
   showAnswer?: boolean;
   show?: boolean;
+  showOrder?: boolean;
 }
 
 interface ToolEvents {
@@ -25,6 +26,9 @@ export default class Tool extends tsx.Component<ToolProps, ToolEvents> {
 
   @Prop({ default: false })
   private show!: boolean
+
+  @Prop({ default: false })
+  private showOrder!: boolean
 
   get __show (): boolean {
     return this.show
@@ -50,6 +54,14 @@ export default class Tool extends tsx.Component<ToolProps, ToolEvents> {
     this.$emit('update:showAnswer', val)
   }
 
+  get __showOrder (): boolean {
+    return this.showOrder
+  }
+
+  set __showOrder (val: boolean) {
+    this.$emit('update:showOrder', val)
+  }
+
   @Emit('replayClick')
   replayClick (): boolean {
     return true
@@ -67,6 +79,16 @@ export default class Tool extends tsx.Component<ToolProps, ToolEvents> {
                 this.__showAnswer = !this.__showAnswer
               }}
               name={this.__showAnswer ? 'eye-o' : 'closed-eye'}/>
+            {/* <span>: </span> */}
+            {/* <van-switch inactive-color="gray" class={style.switchItemField} vModel={this.__showAnswer}/> */}
+          </div>
+          <div class={style.editSwitchItem}>
+            <van-icon
+              class={{ [style.switchItemIcon]: true, [style.iconActive]: this.__showOrder }}
+              nativeOnClick={() => {
+                this.__showOrder = !this.__showOrder
+              }}
+              name="exchange"/>
             {/* <span>: </span> */}
             {/* <van-switch inactive-color="gray" class={style.switchItemField} vModel={this.__showAnswer}/> */}
           </div>

@@ -4,9 +4,15 @@
   justify-content: center;
   height: 100%;
 }
-.wrapperContent {
+.wrapper-content {
   height: 50vh;
   overflow-y: auto;
+  &.wrapper-content-text {
+    padding: 40px 10px;
+    p {
+      margin-bottom: 40px;
+    }
+  }
 }
 .block {
   width: 80%;
@@ -29,4 +35,13 @@
     background: #42b983;
     color: #FFFFFF;
   }
+}
+.closed {
+  position: fixed;
+  color: #ffffff;
+  font-size: 40px;
+  left: 50%;
+  top: 15%;
+  transform: translate3d(-50%, -50%, 0);
+  cursor: pointer;
 }

@@ -1,7 +1,7 @@
 import { Module } from 'vuex'
 import { StoreRootState } from './index'
 import { Notify } from 'vant'
-import { keyMaps } from '@/const'
+import { getKeyMaps } from '@/const'
 
 // Def Interface and Type
 export interface Answer {
@@ -55,7 +55,7 @@ function validate (answers: Answers): boolean {
 
 function initStorage (): Answers {
   let storageAnswers = JSON.parse('' + storage.getItem(storageKey)) as unknown as Answers
-  if (!(storageAnswers && storageAnswers.length > 0)) storageAnswers = keyMaps
+  if (!(storageAnswers && storageAnswers.length > 0)) storageAnswers = getKeyMaps()
   return storageAnswers
 }
 
@@ -101,6 +101,11 @@ export const answerStorageModule: Module<AnswerStorageState, StoreRootState> = {
       return false
     },
 
+    changeAnswerOrder ({ state }, [newOrder, oldOrder]: [number, number]) {
+      const answer = state.answers.splice(oldOrder, 1)[0]
+      state.answers.splice(newOrder, 0, answer)
+    },
+
     loadAnswer ({ state }, newAnswers: Answers): boolean {
       if (validate(newAnswers)) {
         state.answers = newAnswers
@@ -119,6 +124,9 @@ export const answerStorageModule: Module<AnswerStorageState, StoreRootState> = {
     },
     clearStorage () {
       storage.setItem(storageKey, '[]')
+    },
+    initDefaultAnswers ({ dispatch }) {
+      return dispatch('loadAnswer', getKeyMaps())
     }
   }
 }

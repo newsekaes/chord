@@ -9,6 +9,8 @@ interface ChordCardProps {
   isCreateBox?: boolean;
   isEditing?: boolean;
   showAnswer?: boolean;
+  showOrder?: boolean;
+  index: number;
 }
 interface ChordCardEvent {
   onAdd: number[];
@@ -17,7 +19,7 @@ interface ChordCardEvent {
 }
 
 @Component
-export default class Index extends tsx.Component<ChordCardProps, ChordCardEvent> {
+export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEvent> {
   private editStatus: 0 | 1 | 2 = 0 // 0: 不编辑；1：再编辑；2：删除
   private nameModel = ''
 
@@ -46,6 +48,14 @@ export default class Index extends tsx.Component<ChordCardProps, ChordCardEvent>
   })
   private showAnswer!: boolean
 
+  @Prop({
+    default: false
+  })
+  private showOrder!: boolean
+
+  @Prop()
+  private index!: number
+
   @Emit('add')
   private addChord (): {name: string; keys: number[] } {
     const chordNode = this.$refs.chordCreate as Chord
@@ -67,6 +77,11 @@ export default class Index extends tsx.Component<ChordCardProps, ChordCardEvent>
       name: this.nameModel,
       keys: chordNode.getKeys()
     }
+  }
+
+  @Emit('orderChange')
+  private chordOrderChange (direction: 'up' | 'down') {
+    return direction
   }
 
   // @Watch('isEditing', {
@@ -147,7 +162,7 @@ export default class Index extends tsx.Component<ChordCardProps, ChordCardEvent>
       <div class={[style.chordCard, this.isEditing && style.chordCardEditing]}>
         { this.editStatus === 1
           ? <van-field class={style.chordNameField} vModel={this.nameModel} label="" placeholder="请输入和弦名(不可重复)" ref="nameField" input-align="center" clearable />
-          : <h3 class={style.chordName}>{this.name}</h3>
+          : <h3 class={style.chordName}><span class={style.chordIndex}>{this.index + 1}: </span>{this.name}</h3>
         }
         <div class={style.chordBox}>
           <Chord answer={ this.answer } ref="chord"/>
@@ -178,6 +193,12 @@ export default class Index extends tsx.Component<ChordCardProps, ChordCardEvent>
               }
             </div>)
         }
+        <div class={[style.chordOrder, style.chordOrderUp]} onClick={() => this.chordOrderChange('up')} vShow={this.showOrder}>
+          <van-icon class={style.chordArrow} name="down"/>
+        </div>
+        <div class={[style.chordOrder, style.chordOrderDown]} onClick={() => this.chordOrderChange('down')} vShow={this.showOrder}>
+          <van-icon class={style.chordArrow} name="down"/>
+        </div>
       </div>
     )
   }

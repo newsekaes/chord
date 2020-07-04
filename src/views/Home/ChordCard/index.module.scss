@@ -1,4 +1,5 @@
 .chord-card {
+  position: relative;
   width: 350px;
   height: 180px;
   overflow: hidden;
@@ -13,6 +14,10 @@
     line-height: 24px;
     padding: 10px 0;
     box-sizing: content-box;
+    .chord-index {
+      margin-right: 20px;
+      color: #42b983;
+    }
   }
   .chord-name-field {
     text-align: center;
@@ -61,6 +66,33 @@
   .chord-create-title {
     margin-top: 20px;
   }
+  .chord-order {
+    border-radius: 10px;
+    background: #42b983;
+    color: #ffffff;
+    position: absolute;
+    width: 30px;
+    height: 40px;
+    line-height: 40px;
+    vertical-align: middle;
+    text-align: center;
+    .chord-arrow {
+      font-size: 30px;
+      line-height: 40px;
+      cursor: pointer;
+    }
+    &.chord-order__up {
+      left: 2px;
+      top: 2px;
+      .chord-arrow {
+        transform: rotate(180deg);
+      }
+    }
+    &.chord-order__down {
+      right: 2px;
+      top: 2px;
+    }
+  }
   &.chord-card__create {
     height: 270px;
     //.chord-create-btn {
@@ -73,5 +105,15 @@
     //  background: #42b983;
     //  color: #FFFFFF;
     //}
+  }
+  &:first-child {
+    .chord-order.chord-order__up {
+      visibility: hidden;
+    }
+  }
+  &:last-child {
+    .chord-order.chord-order__down {
+      visibility: hidden;
+    }
   }
 }

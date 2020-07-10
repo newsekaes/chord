@@ -21,6 +21,7 @@ export default class Home extends tsx.Component<{}> {
   private BASE_URL: string = BASE_URL
 
   @answerStorage.State('answers') answers!: Answers
+  @answerStorage.State('currentCategory') currentCategory!: string
 
   @answerStorage.Action('addAnswer') addAnswer!: ([answer, index]: [Answer, number?]) => boolean
   @answerStorage.Action('delAnswer') delAnswer!: (index: number) => void
@@ -48,7 +49,13 @@ export default class Home extends tsx.Component<{}> {
         <div class={style.chordCardArea}>
           <div class={style.chordCardBox}>
             {
-              this.answers.map((answer, index) => (
+              this.answers.filter(answer => {
+                if (this.currentCategory === 'all') {
+                  return true
+                } else {
+                  return this.currentCategory === answer.category
+                }
+              }).map((answer, index) => (
                 <ChordCard
                   index={index}
                   isEditing={this.editing}

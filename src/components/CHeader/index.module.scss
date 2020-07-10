@@ -1,0 +1,25 @@
+.chord-header-cpn {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  width: 100%;
+  background-color: $primaryColor;
+  color: #ffffff;
+  .header-left-box {
+
+  }
+  .header-right-box {
+  }
+  .header-middle-box {
+    font-size: 18px;
+  }
+  .header-icon {
+    font-size: 24px;
+    cursor: pointer;
+  }
+}

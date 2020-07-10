@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path')
+
 // npm 自定义参数
 function getNpmConfig (name) {
   // 解析指令参数
@@ -13,8 +16,26 @@ function getNpmConfig (name) {
   }
   return config[name]
 }
+
 process.env.DEPLOY_ENV = getNpmConfig('--dp-env') || 'default'
+
 module.exports = {
+  pages: {
+    index: {
+      // page 的入口
+      entry: 'src/main',
+      // 模板来源
+      template: 'public/index.html',
+      // 在 dist/index.html 的输出
+      filename: 'index.html',
+      // 当使用 title 选项时，
+      // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
+      title: 'Chord和弦图',
+      // 在这个页面中包含的块，默认情况下会包含
+      // 提取出来的通用 chunk 和 vendor chunk。
+      chunks: ['chunk-vendors', 'chunk-common', 'index']
+    }
+  },
   css: {
     requireModuleExtension: true,
     loaderOptions: {
@@ -25,6 +46,9 @@ module.exports = {
         modules: {
         },
         localsConvention: 'camelCaseOnly'
+      },
+      scss: {
+        prependData: '@import "~@/style/variables.scss";'
       }
     }
   },

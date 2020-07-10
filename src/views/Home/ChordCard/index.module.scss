@@ -16,7 +16,7 @@
     box-sizing: content-box;
     .chord-index {
       margin-right: 20px;
-      color: #42b983;
+      color: $primaryColor;
     }
   }
   .chord-name-field {
@@ -46,7 +46,7 @@
         vertical-align: middle;
       }
       &.chord-btn-del {
-        background: #e04545;
+        background: $warnColor;
         color: #FFFFFF;
       }
       &.chord-btn-modify {
@@ -58,7 +58,7 @@
         box-sizing: border-box;
       }
       &.chord-btn-confirm {
-        background: #42b983;
+        background: $primaryColor;
         color: #FFFFFF;
       }
     }
@@ -68,7 +68,7 @@
   }
   .chord-order {
     border-radius: 10px;
-    background: #42b983;
+    background: $primaryColor;
     color: #ffffff;
     position: absolute;
     width: 30px;
@@ -102,7 +102,7 @@
     //  border-radius: 4px;
     //  text-align: center;
     //  line-height: 30px;
-    //  background: #42b983;
+    //  background: $primaryColor;
     //  color: #FFFFFF;
     //}
   }

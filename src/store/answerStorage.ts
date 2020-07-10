@@ -7,10 +7,20 @@ import { getKeyMaps } from '@/const'
 export interface Answer {
   name: string;
   map: number[][];
+  category?: string ;
 }
+
+interface StorageData018 {
+  version: '0.1.8';
+  answers: Answers;
+  category: string[];
+}
+
 export type Answers = Answer[]
 export interface AnswerStorageState {
   answers: Answers;
+  category: string[];
+  currentCategory: string;
 }
 type Errno = '0' | '10001' | '10002' | '20001'
 
@@ -47,6 +57,10 @@ function syncStorage (data: Answers) {
   storage.setItem('chordAnswer', JSON.stringify(data))
 }
 
+function getStorage (): Answers {
+  return JSON.parse('' + storage.getItem(storageKey)) as unknown as Answers
+}
+
 function validate (answers: Answers): boolean {
   const nameArray = answers.map(answer => answer.name)
   // 通过 Set 去重
@@ -54,7 +68,7 @@ function validate (answers: Answers): boolean {
 }
 
 function initStorage (): Answers {
-  let storageAnswers = JSON.parse('' + storage.getItem(storageKey)) as unknown as Answers
+  let storageAnswers = getStorage()
   if (!(storageAnswers && storageAnswers.length > 0)) storageAnswers = getKeyMaps()
   return storageAnswers
 }
@@ -63,12 +77,20 @@ function initStorage (): Answers {
 export const answerStorageModule: Module<AnswerStorageState, StoreRootState> = {
   namespaced: true,
   state: {
-    answers: initStorage()
+    answers: initStorage(),
+    category: ['C'],
+    currentCategory: 'all'
   },
   getters: {},
   mutations: {
     setAnswers (state, answer) {
       state.answers = answer
+    },
+    setCategory (state, category) {
+      state.category = category
+    },
+    setCurrentCategory (state, currentCategory) {
+      state.currentCategory = currentCategory
     }
   },
 
@@ -123,7 +145,7 @@ export const answerStorageModule: Module<AnswerStorageState, StoreRootState> = {
       }
     },
     clearStorage () {
-      storage.setItem(storageKey, '[]')
+      syncStorage([])
     },
     initDefaultAnswers ({ dispatch }) {
       return dispatch('loadAnswer', getKeyMaps())

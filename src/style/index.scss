@@ -1,1 +1,18 @@
 @import "common";
+.app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  overflow: auto;
+  .app-main {
+    margin-top: 60px;
+  }
+
+  .van-tree-select__item--active {
+    color: $primaryColor;
+  }
+  .van-sidebar-item--select::before {
+    background-color: $primaryColor;
+  }
+}

@@ -3,6 +3,7 @@ import { Answers } from '@/store/answerStorage'
 export function getKeyMaps (): Answers {
   return [{
     name: 'C',
+    category: 'C',
     map: [[1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
   }, { name: 'Cm', map: [[1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]] }, {
     name: 'Cdim',

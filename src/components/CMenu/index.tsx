@@ -38,8 +38,8 @@ export default class CMenu extends tsx.Component<CMenuProps> {
 
   private activeId = 'all'
 
-  @AnswerStorageModule.State('category')
-  category!: string[]
+  @AnswerStorageModule.State('categories')
+  categories!: string[]
 
   get navItem (): CMenuItem[] {
     return [
@@ -48,7 +48,7 @@ export default class CMenu extends tsx.Component<CMenuProps> {
         className: style.menuTreeDeep1,
         children: [
           { text: '全部', id: 'all', className: style.menuTreeDeep2 },
-          ...this.category.map(name => ({ text: name, id: name, className: style.menuTreeDeep2 }))
+          ...this.categories.map(name => ({ text: name, id: name, className: style.menuTreeDeep2 }))
         ]
       }
     ]
@@ -85,7 +85,7 @@ export default class CMenu extends tsx.Component<CMenuProps> {
           on={{
             'update:active-id': (val: string) => { this.activeId = val },
             'update:main-active-index': (val: number) => { this.activeIndex = val },
-            'click-item': () => { this.setCurrentCategory(this.activeId) }
+            'click-item': () => { this.setCurrentCategory(this.activeId === 'all' ? '' : this.activeId) }
           }}
         />
       </van-popup>

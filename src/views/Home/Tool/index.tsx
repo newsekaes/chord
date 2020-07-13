@@ -7,12 +7,14 @@ interface ToolProps {
   showAnswer?: boolean;
   show?: boolean;
   showOrder?: boolean;
+  sortCategory?: boolean;
 }
 
 interface ToolEvents {
   'update:show': boolean;
   'update:editing': boolean;
   'update:showAnswer': boolean;
+  'update:sortCategory': boolean;
   'replayClick': boolean;
 }
 
@@ -29,6 +31,9 @@ export default class Tool extends tsx.Component<ToolProps, ToolEvents> {
 
   @Prop({ default: false })
   private showOrder!: boolean
+
+  @Prop({ default: false })
+  private sortCategory!: boolean
 
   get __show (): boolean {
     return this.show
@@ -52,6 +57,14 @@ export default class Tool extends tsx.Component<ToolProps, ToolEvents> {
 
   set __showAnswer (val: boolean) {
     this.$emit('update:showAnswer', val)
+  }
+
+  get __sortCategory (): boolean {
+    return this.sortCategory
+  }
+
+  set __sortCategory (val: boolean) {
+    this.$emit('update:sortCategory', val)
   }
 
   get __showOrder (): boolean {
@@ -89,6 +102,16 @@ export default class Tool extends tsx.Component<ToolProps, ToolEvents> {
                 this.__showOrder = !this.__showOrder
               }}
               name="exchange"/>
+            {/* <span>: </span> */}
+            {/* <van-switch inactive-color="gray" class={style.switchItemField} vModel={this.__showAnswer}/> */}
+          </div>
+          <div class={style.editSwitchItem}>
+            <van-icon
+              class={{ [style.switchItemIcon]: true, [style.iconActive]: this.__sortCategory }}
+              nativeOnClick={() => {
+                this.__sortCategory = !this.__sortCategory
+              }}
+              name="bar-chart-o"/>
             {/* <span>: </span> */}
             {/* <van-switch inactive-color="gray" class={style.switchItemField} vModel={this.__showAnswer}/> */}
           </div>

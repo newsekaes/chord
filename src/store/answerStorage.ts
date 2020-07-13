@@ -13,13 +13,13 @@ export interface Answer {
 interface StorageData018 {
   version: '0.1.8';
   answers: Answers;
-  category: string[];
+  categories: string[];
 }
 
 export type Answers = Answer[]
 export interface AnswerStorageState {
   answers: Answers;
-  category: string[];
+  categories: string[];
   currentCategory: string;
 }
 type Errno = '0' | '10001' | '10002' | '20001'
@@ -78,16 +78,16 @@ export const answerStorageModule: Module<AnswerStorageState, StoreRootState> = {
   namespaced: true,
   state: {
     answers: initStorage(),
-    category: ['C'],
-    currentCategory: 'all'
+    categories: ['C'],
+    currentCategory: ''
   },
   getters: {},
   mutations: {
     setAnswers (state, answer) {
       state.answers = answer
     },
-    setCategory (state, category) {
-      state.category = category
+    setCategories (state, categories) {
+      state.categories = categories
     },
     setCurrentCategory (state, currentCategory) {
       state.currentCategory = currentCategory
@@ -144,6 +144,12 @@ export const answerStorageModule: Module<AnswerStorageState, StoreRootState> = {
         Notify({ type: 'warning', message: '和弦名称不能有重复' })
       }
     },
+
+    changeCategory ({ state, commit }, [index, newCategory]: [number, string]) {
+      const chordData = state.answers[index]
+      chordData.category = newCategory
+    },
+
     clearStorage () {
       syncStorage([])
     },

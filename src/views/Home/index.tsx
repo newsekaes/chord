@@ -18,6 +18,7 @@ export default class Home extends tsx.Component<{}> {
   private showPopup = false
   private showTab = false
   private showOrder = false
+  private sortCategory = false
   private BASE_URL: string = BASE_URL
 
   @answerStorage.State('answers') answers!: Answers
@@ -27,6 +28,7 @@ export default class Home extends tsx.Component<{}> {
   @answerStorage.Action('delAnswer') delAnswer!: (index: number) => void
   @answerStorage.Action('modifyAnswer') modifyAnswer!: ([index, { name, keys }]: [number, { name: string; keys: number[] }]) => boolean
   @answerStorage.Action('changeAnswerOrder') changeAnswerOrder!: ([newIndex, oldIndex]: [number, number]) => void
+  @answerStorage.Action('changeCategory') changeCategory!: (index: number, newCategory: string) => void
 
   private addChord ({ name, keys }: { name: string; keys: number[]}) {
     this.addAnswer([{
@@ -50,7 +52,7 @@ export default class Home extends tsx.Component<{}> {
           <div class={style.chordCardBox}>
             {
               this.answers.filter(answer => {
-                if (this.currentCategory === 'all') {
+                if (this.currentCategory === '') {
                   return true
                 } else {
                   return this.currentCategory === answer.category
@@ -61,6 +63,7 @@ export default class Home extends tsx.Component<{}> {
                   isEditing={this.editing}
                   showAnswer={this.showAnswer}
                   showOrder={this.showOrder}
+                  sortCategory={this.sortCategory}
                   key={answer.name}
                   answer={answer.map[0]}
                   name={answer.name}
@@ -75,6 +78,7 @@ export default class Home extends tsx.Component<{}> {
                       this.$nextTick(() => { document.documentElement.scrollTop = scrollTop + (direction === 'down' ? cardSplitDis : -cardSplitDis) })
                     }
                   }
+                  onCategoryChange={ (newCategory: string) => { this.changeCategory(index, newCategory) } }
                   class={style.chordCard}
                   ref="chord"
                 />
@@ -91,12 +95,14 @@ export default class Home extends tsx.Component<{}> {
           editing={this.editing}
           showAnswer={this.showAnswer}
           showOrder={this.showOrder}
+          sortCategory={this.sortCategory}
           on={{
             replayClick: () => { this.showPopup = false; this.showTab = true },
             'update:show': (val: boolean) => { this.showPopup = val },
             'update:editing': (val: boolean) => { this.editing = val },
             'update:showAnswer': (val: boolean) => { this.showAnswer = val },
-            'update:showOrder': (val: boolean) => { this.showOrder = val }
+            'update:showOrder': (val: boolean) => { this.showOrder = val },
+            'update:sortCategory': (val: boolean) => { this.sortCategory = val }
           }}
         />
         <div class={style.chordTabShow} onClick={() => { this.showPopup = !this.showPopup }}><van-icon name="ellipsis" class={style.chordTabShowIcon}/></div>

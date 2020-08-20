@@ -26,6 +26,7 @@
   .chord-card {}
 }
 .chord-tab-show {
+  z-index: 9;
   cursor: pointer;
   font-size: 20px;
   font-weight: bold;

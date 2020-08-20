@@ -3,11 +3,16 @@
   height: 100%;
   .menu-tree {
     height: 100%;
+    :global {
+      .van-tree-select__content {
+        .van-tree-select__item {
+        }
+      }
+    }
   }
-  .menu-tree-deep1 {
-    //width: 100px;
-  }
-  .menu-tree-deep2 {
-    //width: 100px;
+  .add-category {
+    position: absolute;
+    left: 5px;
+    top: 55px;
   }
 }

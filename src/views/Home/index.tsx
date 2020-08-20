@@ -28,7 +28,7 @@ export default class Home extends tsx.Component<{}> {
   @answerStorage.Action('delAnswer') delAnswer!: (index: number) => void
   @answerStorage.Action('modifyAnswer') modifyAnswer!: ([index, { name, keys }]: [number, { name: string; keys: number[] }]) => boolean
   @answerStorage.Action('changeAnswerOrder') changeAnswerOrder!: ([newIndex, oldIndex]: [number, number]) => void
-  @answerStorage.Action('changeCategory') changeCategory!: (index: number, newCategory: string) => void
+  @answerStorage.Action('changeCategory') changeCategory!: ([index, newCategory]: [number, string]) => void
 
   private addChord ({ name, keys }: { name: string; keys: number[]}) {
     this.addAnswer([{
@@ -67,6 +67,7 @@ export default class Home extends tsx.Component<{}> {
                   key={answer.name}
                   answer={answer.map[0]}
                   name={answer.name}
+                  category={answer.category}
                   onAdd={this.addChord}
                   onDel={this.delChord.bind(this, index)}
                   onModify={(e: { name: string; keys: number[] }) => { this.modifyChord.bind(this, index, e) }}
@@ -78,7 +79,7 @@ export default class Home extends tsx.Component<{}> {
                       this.$nextTick(() => { document.documentElement.scrollTop = scrollTop + (direction === 'down' ? cardSplitDis : -cardSplitDis) })
                     }
                   }
-                  onCategoryChange={ (newCategory: string) => { this.changeCategory(index, newCategory) } }
+                  onCategoryChange={ (newCategory: string) => { this.changeCategory([index, newCategory]) } }
                   class={style.chordCard}
                   ref="chord"
                 />

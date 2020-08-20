@@ -2,7 +2,7 @@ import { Prop, Component, Emit, Watch } from 'vue-property-decorator'
 import * as tsx from 'vue-tsx-support'
 import style from './index.module.scss'
 import Chord from '@/components/Chord'
-import { Field } from 'vant'
+import { Field, Picker } from 'vant'
 import { namespace } from 'vuex-class'
 
 const answerStorageModule = namespace('answerStorage')
@@ -15,6 +15,7 @@ interface ChordCardProps {
   showAnswer?: boolean;
   showOrder?: boolean;
   sortCategory?: boolean;
+  category?: string;
   index: number;
 }
 interface ChordCardEvent {
@@ -22,6 +23,11 @@ interface ChordCardEvent {
   onDel: string;
   onModify: { name: string; keys: number[] };
   onCategoryChange: string;
+}
+
+interface PickColumn {
+  value: string;
+  text: string;
 }
 
 @Component
@@ -66,6 +72,18 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
 
   @Prop()
   private index!: number
+
+  @Prop({
+    default: '无'
+  })
+  private category!: string
+
+  get columns (): PickColumn[] {
+    return [
+      { text: '无', value: 'all' },
+      ...this.categories.map(c => ({ text: c, value: c }))
+    ]
+  }
 
   @answerStorageModule.State('categories')
   private categories!: string[]
@@ -220,12 +238,13 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
         </div>
         <div class={[style.chordCategory]} vShow={this.sortCategory}>
           <van-picker
-            title="选择分类"
+            title={`${this.name}：选择分类`}
             showToolbar={true}
-            columns={['无', ...this.categories]}
+            defaultIndex={this.columns.map(c => c.text).indexOf(this.category)}
+            columns={this.columns}
             visibleItemCount={3}
-            onConfirm={(val: string) => {
-              this.categorySelected(val === '无' ? '' : val)
+            onConfirm={(column: PickColumn) => {
+              this.categorySelected(column.value)
             }}/>
         </div>
       </div>

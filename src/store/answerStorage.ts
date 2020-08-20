@@ -89,6 +89,9 @@ export const answerStorageModule: Module<AnswerStorageState, StoreRootState> = {
     setCategories (state, categories) {
       state.categories = categories
     },
+    addCategory (state, category) {
+      state.categories.push(category)
+    },
     setCurrentCategory (state, currentCategory) {
       state.currentCategory = currentCategory
     }
@@ -147,7 +150,13 @@ export const answerStorageModule: Module<AnswerStorageState, StoreRootState> = {
 
     changeCategory ({ state, commit }, [index, newCategory]: [number, string]) {
       const chordData = state.answers[index]
-      chordData.category = newCategory
+      if (newCategory === 'all') {
+        delete chordData.category
+      } else {
+        chordData.category = newCategory
+      }
+      commit('setAnswers', state.answers)
+      syncStorage(state.answers)
     },
 
     clearStorage () {

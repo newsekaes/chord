@@ -38,6 +38,10 @@ export default class CMenu extends tsx.Component<CMenuProps> {
 
   private activeId = 'all'
 
+  private dialogShow = false
+
+  private newCategory = ''
+
   @AnswerStorageModule.State('categories')
   categories!: string[]
 
@@ -60,6 +64,7 @@ export default class CMenu extends tsx.Component<CMenuProps> {
   }
 
   @AnswerStorageModule.Mutation('setCurrentCategory') setCurrentCategory!: (currentCategory: string) => void
+  @AnswerStorageModule.Mutation('addCategory') addCategory!: (category: string) => void
 
   set modelShow (val: boolean) {
     this.showMenu(val)
@@ -88,6 +93,18 @@ export default class CMenu extends tsx.Component<CMenuProps> {
             'click-item': () => { this.setCurrentCategory(this.activeId === 'all' ? '' : this.activeId) }
           }}
         />
+        <van-button size="mini" icon="plus" type="primary" class={style.addCategory}
+          on={{
+            click: () => { this.dialogShow = true }
+          }}
+        />
+        <van-dialog vModel={this.dialogShow} title="添加新组" show-cancel-button
+          on={{
+            confirm: () => { this.addCategory(this.newCategory) }
+          }}
+        >
+          <van-field vModel={this.newCategory} label="" placeholder="请输入新组名(不可重复)" input-align="center" clearable />
+        </van-dialog>
       </van-popup>
     )
   }

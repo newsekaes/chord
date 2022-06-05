@@ -2,7 +2,11 @@ import { Prop, Component, Emit, Watch } from 'vue-property-decorator'
 import * as tsx from 'vue-tsx-support'
 import style from './index.module.scss'
 import Chord from '@/components/Chord'
-import { Field } from 'vant'
+import { Field, Picker } from 'vant'
+import { namespace } from 'vuex-class'
+
+const answerStorageModule = namespace('answerStorage')
+
 interface ChordCardProps {
   name?: string;
   answer?: number[];
@@ -10,12 +14,20 @@ interface ChordCardProps {
   isEditing?: boolean;
   showAnswer?: boolean;
   showOrder?: boolean;
+  sortCategory?: boolean;
+  category?: string;
   index: number;
 }
 interface ChordCardEvent {
   onAdd: number[];
   onDel: string;
   onModify: { name: string; keys: number[] };
+  onCategoryChange: string;
+}
+
+interface PickColumn {
+  value: string;
+  text: string;
 }
 
 @Component
@@ -51,10 +63,30 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
   @Prop({
     default: false
   })
+  private sortCategory!: boolean
+
+  @Prop({
+    default: false
+  })
   private showOrder!: boolean
 
   @Prop()
   private index!: number
+
+  @Prop({
+    default: '无'
+  })
+  private category!: string
+
+  get columns (): PickColumn[] {
+    return [
+      { text: '无', value: 'all' },
+      ...this.categories.map(c => ({ text: c, value: c }))
+    ]
+  }
+
+  @answerStorageModule.State('categories')
+  private categories!: string[]
 
   @Emit('add')
   private addChord (): {name: string; keys: number[] } {
@@ -82,6 +114,11 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
   @Emit('orderChange')
   private chordOrderChange (direction: 'up' | 'down') {
     return direction
+  }
+
+  @Emit('categoryChange')
+  private categorySelected (val: string) {
+    return val
   }
 
   // @Watch('isEditing', {
@@ -198,6 +235,17 @@ export default class ChordCard extends tsx.Component<ChordCardProps, ChordCardEv
         </div>
         <div class={[style.chordOrder, style.chordOrderDown]} onClick={() => this.chordOrderChange('down')} vShow={this.showOrder}>
           <van-icon class={style.chordArrow} name="down"/>
+        </div>
+        <div class={[style.chordCategory]} vShow={this.sortCategory}>
+          <van-picker
+            title={`${this.name}：选择分类`}
+            showToolbar={true}
+            defaultIndex={this.columns.map(c => c.text).indexOf(this.category)}
+            columns={this.columns}
+            visibleItemCount={3}
+            onConfirm={(column: PickColumn) => {
+              this.categorySelected(column.value)
+            }}/>
         </div>
       </div>
     )

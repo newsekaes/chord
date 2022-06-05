@@ -1,0 +1,18 @@
+.chord-menu-cpn {
+  width: 50%;
+  height: 100%;
+  .menu-tree {
+    height: 100%;
+    :global {
+      .van-tree-select__content {
+        .van-tree-select__item {
+        }
+      }
+    }
+  }
+  .add-category {
+    position: absolute;
+    left: 5px;
+    top: 55px;
+  }
+}

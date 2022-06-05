@@ -7,10 +7,20 @@ import { getKeyMaps } from '@/const'
 export interface Answer {
   name: string;
   map: number[][];
+  category?: string ;
 }
+
+interface StorageData018 {
+  version: '0.1.8';
+  answers: Answers;
+  categories: string[];
+}
+
 export type Answers = Answer[]
 export interface AnswerStorageState {
   answers: Answers;
+  categories: string[];
+  currentCategory: string;
 }
 type Errno = '0' | '10001' | '10002' | '20001'
 
@@ -47,6 +57,10 @@ function syncStorage (data: Answers) {
   storage.setItem('chordAnswer', JSON.stringify(data))
 }
 
+function getStorage (): Answers {
+  return JSON.parse('' + storage.getItem(storageKey)) as unknown as Answers
+}
+
 function validate (answers: Answers): boolean {
   const nameArray = answers.map(answer => answer.name)
   // 通过 Set 去重
@@ -54,7 +68,7 @@ function validate (answers: Answers): boolean {
 }
 
 function initStorage (): Answers {
-  let storageAnswers = JSON.parse('' + storage.getItem(storageKey)) as unknown as Answers
+  let storageAnswers = getStorage()
   if (!(storageAnswers && storageAnswers.length > 0)) storageAnswers = getKeyMaps()
   return storageAnswers
 }
@@ -63,12 +77,23 @@ function initStorage (): Answers {
 export const answerStorageModule: Module<AnswerStorageState, StoreRootState> = {
   namespaced: true,
   state: {
-    answers: initStorage()
+    answers: initStorage(),
+    categories: ['C'],
+    currentCategory: ''
   },
   getters: {},
   mutations: {
     setAnswers (state, answer) {
       state.answers = answer
+    },
+    setCategories (state, categories) {
+      state.categories = categories
+    },
+    addCategory (state, category) {
+      state.categories.push(category)
+    },
+    setCurrentCategory (state, currentCategory) {
+      state.currentCategory = currentCategory
     }
   },
 
@@ -122,8 +147,20 @@ export const answerStorageModule: Module<AnswerStorageState, StoreRootState> = {
         Notify({ type: 'warning', message: '和弦名称不能有重复' })
       }
     },
+
+    changeCategory ({ state, commit }, [index, newCategory]: [number, string]) {
+      const chordData = state.answers[index]
+      if (newCategory === 'all') {
+        delete chordData.category
+      } else {
+        chordData.category = newCategory
+      }
+      commit('setAnswers', state.answers)
+      syncStorage(state.answers)
+    },
+
     clearStorage () {
-      storage.setItem(storageKey, '[]')
+      syncStorage([])
     },
     initDefaultAnswers ({ dispatch }) {
       return dispatch('loadAnswer', getKeyMaps())

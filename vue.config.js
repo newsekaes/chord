@@ -48,7 +48,7 @@ module.exports = {
         localsConvention: 'camelCaseOnly'
       },
       scss: {
-        prependData: '@import "~@/style/variables.scss";'
+        additionalData: '@import "~@/style/variables.scss";'
       }
     }
   },
